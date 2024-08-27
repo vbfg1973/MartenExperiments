@@ -6,7 +6,7 @@
     {
         [JsonIgnore] private readonly List<object> _uncommittedEvents = new();
 
-        public Guid Id { get; protected set; }
+        public Guid Id { get; protected set; } = default;
 
         public long Version { get; protected set; }
 

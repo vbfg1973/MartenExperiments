@@ -6,6 +6,8 @@
 
     public class CentreAggregate : AggregateBase
     {
+
+
         public CentreAggregate(CreateCentre command)
         {
             if (string.IsNullOrEmpty(command.Name))
@@ -47,6 +49,7 @@
 
         private void Apply(CentreCreated @event)
         {
+            Id = @event.Id;
             Name = @event.Name;
             Code = @event.Code;
 

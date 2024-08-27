@@ -1,4 +1,4 @@
-namespace Domain.Tests
+namespace Domain.Tests.CentreAggregateTests
 {
     using Centres;
     using Centres.Create;
