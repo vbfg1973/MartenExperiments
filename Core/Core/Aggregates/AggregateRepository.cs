@@ -3,7 +3,7 @@
     using Marten;
     using Microsoft.Extensions.Logging;
 
-    public class AggregateRepository(IDocumentStore store, ILogger<AggregateRepository> logger) : IAggregateRepository
+    public class AggregateRepository(IDocumentStore store, ILogger<AggregateRepository> logger): IAggregateRepository
     {
         public async Task StoreAsync(AggregateBase aggregate, CancellationToken ct = default)
         {
@@ -11,10 +11,10 @@
                 aggregate.GetType().Name,
                 aggregate.Id);
 
-            await using IDocumentSession session = await store.LightweightSerializableSessionAsync(ct);
+            await using var session = await store.LightweightSerializableSessionAsync(ct);
 
             // Take non-persisted events, push them to the event stream, indexed by the aggregate ID
-            object[] events = aggregate.GetUncommittedEvents().ToArray();
+            var events = aggregate.GetUncommittedEvents().ToArray();
             session.Events.Append(aggregate.Id, aggregate.Version, events);
             await session.SaveChangesAsync(ct);
 
@@ -28,7 +28,7 @@
             logger.LogInformation("Load aggregate {AggregateId}",
                 id);
 
-            await using IDocumentSession session = await store.LightweightSerializableSessionAsync(ct);
+            await using var session = await store.LightweightSerializableSessionAsync(ct);
             var aggregate = await session.Events.AggregateStreamAsync<T>(id, version ?? 0, token: ct);
             return aggregate ?? throw new InvalidOperationException($"No aggregate by id {id}.");
         }

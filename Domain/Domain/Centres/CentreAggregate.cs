@@ -4,10 +4,8 @@
     using Create;
     using Update;
 
-    public class CentreAggregate : AggregateBase
+    public class CentreAggregate: AggregateBase
     {
-
-
         public CentreAggregate(CreateCentre command)
         {
             if (string.IsNullOrEmpty(command.Name))
