@@ -13,7 +13,7 @@
     public class CentresController(ICommandBus commandBus, IQueryBus queryBus, ILogger<CentresController> logger): Controller
     {
         [HttpGet]
-        public async Task<IActionResult> GetCentreSummary([FromQuery] int pageNumber,  [FromQuery] int pageSize)
+        public async Task<IActionResult> GetCentreSummary([FromQuery] int pageNumber = 1,  [FromQuery] int pageSize = 100)
         {
             var query = GetCentreSummaries.Create(pageNumber, pageSize);
             var result = await queryBus.Query<GetCentreSummaries, IPagedList<CentreSummaryReadModel>>(query);
@@ -43,7 +43,7 @@
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCentre([FromRoute] Guid id, [FromBody] CreateCentreRequest request)
+        public async Task<IActionResult> UpdateCentre([FromRoute] Guid id, [FromBody] UpdateCentreRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
 
