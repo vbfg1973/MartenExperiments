@@ -59,9 +59,8 @@
             s_serviceCollection.AddLogging(configure => configure.AddSerilog());
 
             s_serviceCollection
-                .ConfigureMartenServices(s_configuration)
                 .AddCoreServices()
-                .AddDomainServices()
+                .AddDomainServices(s_configuration)
                 .AddVerbs()
                 ;
 

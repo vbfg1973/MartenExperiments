@@ -1,7 +1,7 @@
 ﻿namespace Api.Controllers
 {
     using Core.Commands;
-    using Domain.Centres.Create;
+    using Domain.Centres.Write.Create;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]

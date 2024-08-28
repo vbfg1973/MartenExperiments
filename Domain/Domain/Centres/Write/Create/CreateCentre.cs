@@ -1,4 +1,4 @@
-﻿namespace Domain.Centres.Create
+﻿namespace Domain.Centres.Write.Create
 {
     using Core.Commands;
 

@@ -1,4 +1,4 @@
-﻿namespace Domain.Centres.Update
+﻿namespace Domain.Centres.Write.Update
 {
     using Core.Aggregates;
     using Core.Commands;

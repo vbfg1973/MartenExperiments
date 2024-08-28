@@ -2,8 +2,8 @@
 {
     using CommandLine;
     using Core.Commands;
-    using Domain.Centres.Create;
-    using Domain.Centres.Update;
+    using Domain.Centres.Write.Create;
+    using Domain.Centres.Write.Update;
     using Microsoft.Extensions.Logging;
 
     public class TestOptions

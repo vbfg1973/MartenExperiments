@@ -1,8 +1,8 @@
 ﻿namespace Domain.Centres
 {
     using Core.Aggregates;
-    using Create;
-    using Update;
+    using Write.Create;
+    using Write.Update;
 
     public class CentreAggregate: Aggregate
     {
