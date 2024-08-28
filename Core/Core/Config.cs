@@ -2,13 +2,15 @@
 {
     using Commands;
     using Microsoft.Extensions.DependencyInjection;
+    using Queries;
 
     public static class Config
     {
         public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
             services
-                .AddScoped<ICommandBus, InMemoryCommandBus>()
+                .AddCommandBus()
+                .AddQueryBus()
                 ;
 
             return services;
