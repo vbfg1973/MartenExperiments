@@ -1,6 +1,6 @@
 ﻿namespace Core.Aggregates
 {
-    using Marten;
+    using global::Marten;
     using Microsoft.Extensions.Logging;
 
     public class AggregateRepository(IDocumentStore store, ILogger<AggregateRepository> logger): IAggregateRepository
