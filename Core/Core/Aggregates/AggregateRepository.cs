@@ -16,11 +16,6 @@
 
             logger.LogDebug("Dequeued {AggregateEventCount} events on add for {AggregateId} type {AggregateType}", events.Length, id, typeof(TAggregate).Name);
 
-            foreach (var @event in events)
-            {
-                logger.LogDebug("Storing {EventType} {Event} to {AggregateId}", @event.GetType().Name, JsonSerializer.Serialize(@event), id);
-            }
-
             documentSession.Events.StartStream<Aggregate>(
                 id,
                 events
@@ -45,12 +40,7 @@
                 id,
                 typeof(TAggregate).Name);
 
-            foreach (var @event in events)
-            {
-                logger.LogDebug("Storing {EventType} {Event} to {AggregateId}", @event.GetType().Name, JsonSerializer.Serialize(@event), id);
-            }
-
-            var nextVersion = (expectedVersion ?? aggregate.Version) + events.Length;
+            var nextVersion = expectedVersion ?? aggregate.Version;
 
             documentSession.Events.Append(
                 id,

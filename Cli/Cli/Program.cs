@@ -2,7 +2,6 @@
 {
     using CommandLine;
     using Core;
-    using Core.Configuration;
     using Core.Marten;
     using Domain;
     using Features;
@@ -27,15 +26,18 @@
 
             AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
             {
-                Log.Logger.Error(e.ExceptionObject as Exception, "UnhandledException");
+                var ex = e.ExceptionObject as Exception;
+                Log.Logger.Error(ex, "UnhandledException {ExceptionMessage}", ex!.Message);
             };
 
             ConfigureServices();
 
             ParseCommandLineArguments(args);
+
+            Log.CloseAndFlush();
         }
 
-        public static void ParseCommandLineArguments(string[] args)
+        private static void ParseCommandLineArguments(string[] args)
         {
             Parser.Default
                 .ParseArguments<
