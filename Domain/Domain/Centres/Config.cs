@@ -1,5 +1,6 @@
 ﻿namespace Domain.Centres
 {
+    using Core.Aggregates;
     using Core.Commands;
     using Create;
     using Microsoft.Extensions.DependencyInjection;
@@ -10,8 +11,9 @@
         public static IServiceCollection AddCentresModule(this IServiceCollection services)
         {
             services
-                .AddScoped<ICommandHandler<CreateCentre>, CreateCentreCommandHandler>()
-                .AddScoped<ICommandHandler<UpdateCentre>, UpdateCentreCommandHandler>()
+                .AddScoped<IAggregateRepository<CentreAggregate>, AggregateRepository<CentreAggregate>>()
+                .AddCommandHandler<CreateCentre, CreateCentreCommandHandler>()
+                .AddCommandHandler<UpdateCentre, UpdateCentreCommandHandler>()
                 ;
 
             return services;

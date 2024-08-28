@@ -9,7 +9,6 @@
         public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
             services
-                .AddScoped<IAggregateRepository, AggregateRepository>()
                 .AddScoped<ICommandBus, InMemoryCommandBus>()
                 ;
 
