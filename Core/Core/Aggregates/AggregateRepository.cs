@@ -1,36 +1,74 @@
 ﻿namespace Core.Aggregates
 {
+    using System.Text.Json;
     using global::Marten;
     using Microsoft.Extensions.Logging;
 
-    public class AggregateRepository(IDocumentStore store, ILogger<AggregateRepository> logger): IAggregateRepository
+    public class AggregateRepository<TAggregate>(IDocumentSession documentSession, ILogger<AggregateRepository<TAggregate>> logger): IAggregateRepository<TAggregate>
+        where TAggregate : AggregateBase
     {
-        public async Task StoreAsync(AggregateBase aggregate, CancellationToken ct = default)
+        public Task<TAggregate?> Find(Guid id, CancellationToken ct) =>
+            documentSession.Events.AggregateStreamAsync<TAggregate>(id, token: ct);
+
+        public async Task<long> Add(Guid id, TAggregate aggregate, CancellationToken ct = default)
         {
-            logger.LogDebug("Store aggregate of type {AggregateType} - {AggregateId}",
-                aggregate.GetType().Name,
-                aggregate.Id);
+            var events = aggregate.DequeueUncommittedEvents();
 
-            await using var session = await store.LightweightSerializableSessionAsync(ct);
+            logger.LogDebug("Dequeued {AggregateEventCount} events on add for {AggregateId} type {AggregateType}", events.Length, id, typeof(TAggregate).Name);
 
-            // Take non-persisted events, push them to the event stream, indexed by the aggregate ID
-            var events = aggregate.GetUncommittedEvents().ToArray();
-            session.Events.Append(aggregate.Id, aggregate.Version, events);
-            await session.SaveChangesAsync(ct);
+            foreach (var @event in events)
+            {
+                logger.LogDebug("Storing {EventType} {Event} to {AggregateId}", @event.GetType().Name, JsonSerializer.Serialize(@event), id);
+            }
 
-            // Once successfully persisted, clear events from list of uncommitted events
-            aggregate.ClearUncommittedEvents();
+            documentSession.Events.StartStream<AggregateBase>(
+                id,
+                events
+            );
+
+            await documentSession.SaveChangesAsync(ct).ConfigureAwait(false);
+
+            logger.LogDebug("AggregateVersion for {AggregateId} - {AggregateType} is {AggregateVersion} after add",
+                id,
+                typeof(TAggregate).Name,
+                events.Length);
+
+            return events.Length;
         }
 
-        public async Task<T> LoadAsync<T>(Guid id, int? version = null, CancellationToken ct = default)
-            where T : AggregateBase
+        public async Task<long> Update(Guid id, TAggregate aggregate, long? expectedVersion = null, CancellationToken ct = default)
         {
-            logger.LogDebug("Load aggregate {AggregateId}",
-                id);
+            var events = aggregate.DequeueUncommittedEvents();
 
-            await using var session = await store.LightweightSerializableSessionAsync(ct);
-            var aggregate = await session.Events.AggregateStreamAsync<T>(id, version ?? 0, token: ct);
-            return aggregate ?? throw new InvalidOperationException($"No aggregate by id {id}.");
+            logger.LogDebug("Dequeued {AggregateEventCount} events on update for {AggregateId} type {AggregateType}",
+                events.Length,
+                id,
+                typeof(TAggregate).Name);
+
+            foreach (var @event in events)
+            {
+                logger.LogDebug("Storing {EventType} {Event} to {AggregateId}", @event.GetType().Name, JsonSerializer.Serialize(@event), id);
+            }
+
+            var nextVersion = (expectedVersion ?? aggregate.Version) + events.Length;
+
+            documentSession.Events.Append(
+                id,
+                nextVersion,
+                events
+            );
+
+            logger.LogDebug("AggregateVersion for {AggregateId} - {AggregateType} is {AggregateVersion} after update",
+                id,
+                typeof(TAggregate).Name,
+                nextVersion);
+
+            await documentSession.SaveChangesAsync(ct).ConfigureAwait(false);
+
+            return nextVersion;
         }
+
+        public Task<long> Delete(Guid id, TAggregate aggregate, long? expectedVersion = null, CancellationToken ct = default) =>
+            Update(id, aggregate, expectedVersion, ct);
     }
 }

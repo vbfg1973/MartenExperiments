@@ -1,10 +1,10 @@
 namespace Core.Aggregates
 {
-    public interface IAggregateRepository
+    public interface IAggregateRepository<T> where T : AggregateBase
     {
-        Task StoreAsync(AggregateBase aggregate, CancellationToken ct = default);
-
-        Task<T> LoadAsync<T>(Guid id, int? version = null, CancellationToken ct = default)
-            where T : AggregateBase;
+        Task<T?> Find(Guid id, CancellationToken cancellationToken);
+        Task<long> Add(Guid id, T aggregate, CancellationToken cancellationToken = default);
+        Task<long> Update(Guid id, T aggregate, long? expectedVersion = null, CancellationToken cancellationToken = default);
+        Task<long> Delete(Guid id, T aggregate, long? expectedVersion = null, CancellationToken cancellationToken = default);
     }
 }

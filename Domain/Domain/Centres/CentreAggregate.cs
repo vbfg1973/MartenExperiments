@@ -6,6 +6,11 @@
 
     public class CentreAggregate: AggregateBase
     {
+        public CentreAggregate()
+        {
+
+        }
+
         public CentreAggregate(CreateCentre command)
         {
             if (string.IsNullOrEmpty(command.Name))
@@ -18,10 +23,10 @@
                 throw new ArgumentNullException(nameof(command.Code));
             }
 
-            var @event = new CentreCreated(command.Name, command.Code);
+            var @event = new CentreCreated(command.CentreId, command.Name, command.Code);
 
             Apply(@event);
-            AddUncommittedEvent(@event);
+            Enqueue(@event);
         }
 
         public string Name { get; private set; } = null!;
@@ -39,15 +44,15 @@
                 throw new ArgumentNullException(nameof(command.Code));
             }
 
-            var @event = new CentreUpdated(command.Name, command.Code);
+            var @event = new CentreUpdated(command.CentreId, command.Name, command.Code);
 
             Apply(@event);
-            AddUncommittedEvent(@event);
+            Enqueue(@event);
         }
 
         private void Apply(CentreCreated @event)
         {
-            Id = @event.Id;
+            Id = @event.CentreId;
             Name = @event.Name;
             Code = @event.Code;
 

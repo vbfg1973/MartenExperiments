@@ -4,28 +4,25 @@
 
     public abstract class AggregateBase
     {
-        [JsonIgnore] private readonly List<object> _uncommittedEvents = new();
+        [JsonIgnore] private readonly Queue<object> _uncommittedEvents = new();
 
         public Guid Id { get; protected set; } = default;
 
         public long Version { get; protected set; }
 
-        // Get the deltas, i.e. events that make up the state, not yet persisted
-        public IEnumerable<object> GetUncommittedEvents()
-        {
-            return _uncommittedEvents;
-        }
-
-        // Mark the deltas as persisted.
-        public void ClearUncommittedEvents()
-        {
-            _uncommittedEvents.Clear();
-        }
-
-        protected void AddUncommittedEvent(object @event)
+        public void Enqueue(object @event)
         {
             // add the event to the uncommitted list
-            _uncommittedEvents.Add(@event);
+            _uncommittedEvents.Enqueue(@event);
+        }
+
+        public object[] DequeueUncommittedEvents()
+        {
+            var dequeuedEvents = _uncommittedEvents.Cast<object>().ToArray();
+
+            _uncommittedEvents.Clear();
+
+            return dequeuedEvents;
         }
     }
 }

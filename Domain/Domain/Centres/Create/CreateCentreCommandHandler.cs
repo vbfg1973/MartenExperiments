@@ -4,16 +4,16 @@
     using Core.Commands;
     using Microsoft.Extensions.Logging;
 
-    public class CreateCentreCommandHandler(IAggregateRepository repository, ILogger<CreateCentreCommandHandler> logger)
+    public class CreateCentreCommandHandler(IAggregateRepository<CentreAggregate> repository, ILogger<CreateCentreCommandHandler> logger)
         : ICommandHandler<CreateCentre>
     {
         public async Task Handle(CreateCentre command, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Creating Centre with command {CommandId}", command.Id);
+            logger.LogInformation("Creating Centre with command {AggregateId}", command.CentreId);
 
             var aggregate = new CentreAggregate(command);
 
-            await repository.StoreAsync(aggregate, cancellationToken);
+            await repository.Add(command.CentreId, aggregate, cancellationToken);
         }
     }
 }

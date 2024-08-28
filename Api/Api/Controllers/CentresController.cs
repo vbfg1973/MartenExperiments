@@ -22,7 +22,7 @@
 
             await commandBus.Send(command);
 
-            return Created($"api/Centres/{command.Id}", null);
+            return Created($"api/Centres/{command.CentreId}", null);
         }
 
         public record CreateCentreRequest(string CentreName, string CentreCode);

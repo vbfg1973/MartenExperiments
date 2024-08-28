@@ -3,6 +3,7 @@
     using CommandLine;
     using Core.Commands;
     using Domain.Centres.Create;
+    using Domain.Centres.Update;
     using Microsoft.Extensions.Logging;
 
     public class TestOptions
@@ -17,9 +18,13 @@
         {
             logger.LogInformation("Running TestVerb");
 
-            var command = new CreateCentre(options.Name, options.Code);
+            var createCentre = new CreateCentre(options.Name, options.Code);
 
-            await commandBus.Send(command);
+            await commandBus.Send(createCentre);
+
+            var updateCentre = new UpdateCentre(createCentre.CentreId, options.Name + " Modified", options.Code + " Modified");
+
+            await commandBus.Send(updateCentre);
         }
     }
 }
