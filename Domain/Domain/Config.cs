@@ -13,6 +13,7 @@
             services
                 .ConfigureMartenServices(configuration, options =>
                 {
+                    // Projection configs go in here through static methods
                     options.ConfigureCentresModule();
                 }).Services
                 .AddCentresModule(configuration)

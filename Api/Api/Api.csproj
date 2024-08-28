@@ -7,11 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.2"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\Core\Core.WebApi\Core.WebApi.csproj" />
         <ProjectReference Include="..\..\Domain\Domain\Domain.csproj"/>
     </ItemGroup>
 
