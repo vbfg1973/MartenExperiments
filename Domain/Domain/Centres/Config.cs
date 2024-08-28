@@ -5,6 +5,7 @@
     using Core.Queries;
     using Marten;
     using Marten.Events.Projections;
+    using Marten.Pagination;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Read.CentreSummary;
@@ -39,6 +40,7 @@
         {
             services
                 .AddQueryHandler<GetCentreSummaryById, CentreSummaryReadModel, GetCentreSummaryByIdQueryHandler>()
+                .AddQueryHandler<GetCentreSummaries, IPagedList<CentreSummaryReadModel>, GetCentreSummariesQueryHandler>()
                 ;
 
             return services;

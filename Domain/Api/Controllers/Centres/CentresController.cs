@@ -5,14 +5,24 @@
     using Domain.Centres.Read.CentreSummary;
     using Domain.Centres.Write.Create;
     using Domain.Centres.Write.Update;
+    using Marten.Pagination;
     using Microsoft.AspNetCore.Mvc;
     using Requests;
 
     [Route("api/[controller]")]
     public class CentresController(ICommandBus commandBus, IQueryBus queryBus, ILogger<CentresController> logger): Controller
     {
+        [HttpGet]
+        public async Task<IActionResult> GetCentreSummary([FromQuery] int pageNumber,  [FromQuery] int pageSize)
+        {
+            var query = GetCentreSummaries.Create(pageNumber, pageSize);
+            var result = await queryBus.Query<GetCentreSummaries, IPagedList<CentreSummaryReadModel>>(query);
+
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCentre(Guid id)
+        public async Task<IActionResult> GetCentreSummary(Guid id)
         {
             var result = await queryBus
                 .Query<GetCentreSummaryById, CentreSummaryReadModel>(new GetCentreSummaryById(id));
@@ -33,7 +43,7 @@
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> CreateCentre([FromRoute] Guid id, [FromBody] CreateCentreRequest request)
+        public async Task<IActionResult> UpdateCentre([FromRoute] Guid id, [FromBody] CreateCentreRequest request)
         {
             ArgumentNullException.ThrowIfNull(request);
 
