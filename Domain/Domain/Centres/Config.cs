@@ -12,8 +12,8 @@
         {
             services
                 .AddScoped<IAggregateRepository<CentreAggregate>, AggregateRepository<CentreAggregate>>()
-                .AddScoped<ICommandHandler<CreateCentre>, CreateCentreCommandHandler>()
-                .AddScoped<ICommandHandler<UpdateCentre>, UpdateCentreCommandHandler>()
+                .AddCommandHandler<CreateCentre, CreateCentreCommandHandler>()
+                .AddCommandHandler<UpdateCentre, UpdateCentreCommandHandler>()
                 ;
 
             return services;

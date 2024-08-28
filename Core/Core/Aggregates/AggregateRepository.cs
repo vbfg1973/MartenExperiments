@@ -5,7 +5,7 @@
     using Microsoft.Extensions.Logging;
 
     public class AggregateRepository<TAggregate>(IDocumentSession documentSession, ILogger<AggregateRepository<TAggregate>> logger): IAggregateRepository<TAggregate>
-        where TAggregate : AggregateBase
+        where TAggregate : Aggregate
     {
         public Task<TAggregate?> Find(Guid id, CancellationToken ct) =>
             documentSession.Events.AggregateStreamAsync<TAggregate>(id, token: ct);
@@ -21,7 +21,7 @@
                 logger.LogDebug("Storing {EventType} {Event} to {AggregateId}", @event.GetType().Name, JsonSerializer.Serialize(@event), id);
             }
 
-            documentSession.Events.StartStream<AggregateBase>(
+            documentSession.Events.StartStream<Aggregate>(
                 id,
                 events
             );

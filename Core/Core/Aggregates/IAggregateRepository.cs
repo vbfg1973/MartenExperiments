@@ -1,6 +1,6 @@
 namespace Core.Aggregates
 {
-    public interface IAggregateRepository<T> where T : AggregateBase
+    public interface IAggregateRepository<T> where T : Aggregate
     {
         Task<T?> Find(Guid id, CancellationToken cancellationToken);
         Task<long> Add(Guid id, T aggregate, CancellationToken cancellationToken = default);

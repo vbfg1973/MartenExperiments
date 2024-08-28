@@ -8,7 +8,7 @@
             this IAggregateRepository<T> repository,
             Guid id,
             CancellationToken cancellationToken = default
-        ) where T : AggregateBase
+        ) where T : Aggregate
         {
             var entity = await repository.Find(id, cancellationToken).ConfigureAwait(false);
 
@@ -21,7 +21,7 @@
             Action<T> action,
             long? expectedVersion = null,
             CancellationToken ct = default
-        ) where T : AggregateBase
+        ) where T : Aggregate
         {
             var entity = await repository.Get(id, ct).ConfigureAwait(false);
 

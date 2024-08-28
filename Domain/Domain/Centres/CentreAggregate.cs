@@ -4,7 +4,7 @@
     using Create;
     using Update;
 
-    public class CentreAggregate: AggregateBase
+    public class CentreAggregate: Aggregate
     {
         public CentreAggregate()
         {
@@ -25,8 +25,8 @@
 
             var @event = new CentreCreated(command.CentreId, command.Name, command.Code);
 
-            Apply(@event);
             Enqueue(@event);
+            Apply(@event);
         }
 
         public string Name { get; private set; } = null!;
@@ -46,8 +46,8 @@
 
             var @event = new CentreUpdated(command.CentreId, command.Name, command.Code);
 
-            Apply(@event);
             Enqueue(@event);
+            Apply(@event);
         }
 
         private void Apply(CentreCreated @event)
