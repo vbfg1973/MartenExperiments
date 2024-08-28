@@ -7,7 +7,7 @@
     {
         public async Task StoreAsync(AggregateBase aggregate, CancellationToken ct = default)
         {
-            logger.LogInformation("Store aggregate of type {AggregateType} - {AggregateId}",
+            logger.LogDebug("Store aggregate of type {AggregateType} - {AggregateId}",
                 aggregate.GetType().Name,
                 aggregate.Id);
 
@@ -25,7 +25,7 @@
         public async Task<T> LoadAsync<T>(Guid id, int? version = null, CancellationToken ct = default)
             where T : AggregateBase
         {
-            logger.LogInformation("Load aggregate {AggregateId}",
+            logger.LogDebug("Load aggregate {AggregateId}",
                 id);
 
             await using var session = await store.LightweightSerializableSessionAsync(ct);
