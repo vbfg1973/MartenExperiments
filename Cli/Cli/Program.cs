@@ -2,7 +2,6 @@
 {
     using CommandLine;
     using Core;
-    using Core.Marten;
     using Domain;
     using Features;
     using Features.Test;
@@ -59,9 +58,8 @@
             s_serviceCollection.AddLogging(configure => configure.AddSerilog());
 
             s_serviceCollection
-                .ConfigureMartenServices(s_configuration)
                 .AddCoreServices()
-                .AddDomainServices()
+                .AddDomainServices(s_configuration)
                 .AddVerbs()
                 ;
 

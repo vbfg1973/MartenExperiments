@@ -1,8 +1,8 @@
-namespace Domain.Centres.Create
+﻿namespace Domain.Centres.Write.Update
 {
-    using Core.Events;
+    using Core.Commands;
 
-    public sealed class CentreCreated(Guid centreId, string centreName, string centreCode): DomainEventBase
+    public sealed class UpdateCentre(Guid centreId, string centreName, string centreCode): DomainCommandBase
     {
         public Guid CentreId { get; set; } = centreId;
         public string Name { get; init; } = centreName;

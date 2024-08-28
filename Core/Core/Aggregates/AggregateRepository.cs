@@ -1,20 +1,24 @@
 ﻿namespace Core.Aggregates
 {
-    using System.Text.Json;
     using global::Marten;
     using Microsoft.Extensions.Logging;
 
-    public class AggregateRepository<TAggregate>(IDocumentSession documentSession, ILogger<AggregateRepository<TAggregate>> logger): IAggregateRepository<TAggregate>
+    public class AggregateRepository<TAggregate>(
+        IDocumentSession documentSession,
+        ILogger<AggregateRepository<TAggregate>> logger): IAggregateRepository<TAggregate>
         where TAggregate : Aggregate
     {
-        public Task<TAggregate?> Find(Guid id, CancellationToken ct) =>
-            documentSession.Events.AggregateStreamAsync<TAggregate>(id, token: ct);
+        public Task<TAggregate?> Find(Guid id, CancellationToken ct)
+        {
+            return documentSession.Events.AggregateStreamAsync<TAggregate>(id, token: ct);
+        }
 
         public async Task<long> Add(Guid id, TAggregate aggregate, CancellationToken ct = default)
         {
             var events = aggregate.DequeueUncommittedEvents();
 
-            logger.LogDebug("Dequeued {AggregateEventCount} events on add for {AggregateId} type {AggregateType}", events.Length, id, typeof(TAggregate).Name);
+            logger.LogDebug("Dequeued {AggregateEventCount} events on add for {AggregateId} type {AggregateType}",
+                events.Length, id, typeof(TAggregate).Name);
 
             documentSession.Events.StartStream<Aggregate>(
                 id,
@@ -31,7 +35,8 @@
             return events.Length;
         }
 
-        public async Task<long> Update(Guid id, TAggregate aggregate, long? expectedVersion = null, CancellationToken ct = default)
+        public async Task<long> Update(Guid id, TAggregate aggregate, long? expectedVersion = null,
+            CancellationToken ct = default)
         {
             var events = aggregate.DequeueUncommittedEvents();
 
@@ -58,7 +63,10 @@
             return nextVersion;
         }
 
-        public Task<long> Delete(Guid id, TAggregate aggregate, long? expectedVersion = null, CancellationToken ct = default) =>
-            Update(id, aggregate, expectedVersion, ct);
+        public Task<long> Delete(Guid id, TAggregate aggregate, long? expectedVersion = null,
+            CancellationToken ct = default)
+        {
+            return Update(id, aggregate, expectedVersion, ct);
+        }
     }
 }

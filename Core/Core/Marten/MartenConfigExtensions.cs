@@ -11,18 +11,20 @@
     {
         private const string DefaultConfigKey = "EventStore";
 
-        public static IServiceCollection ConfigureMartenServices(this IServiceCollection services,
-            IConfiguration configuration)
+        public static MartenServiceCollectionExtensions.MartenConfigurationExpression ConfigureMartenServices(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            Action<StoreOptions>? configureOptions = null)
         {
             var martenConfig = configuration.GetRequiredConfig<MartenConfig>(DefaultConfigKey);
 
-            services
+            var configurationExpression = services
                 .AddMarten(sp =>
                 {
                     var dataSource = sp.GetService<NpgsqlDataSource>();
                     if (dataSource == null)
                     {
-                        return SetStoreOptions(martenConfig);
+                        return SetStoreOptions(martenConfig, configureOptions);
                     }
 
                     martenConfig.ConnectionString = dataSource.ConnectionString;
@@ -33,10 +35,11 @@
                 .UseLightweightSessions()
                 .ApplyAllDatabaseChangesOnStartup();
 
-            return services;
+            return configurationExpression;
         }
 
-        private static StoreOptions SetStoreOptions(MartenConfig martenConfig)
+        private static StoreOptions SetStoreOptions(MartenConfig martenConfig,
+            Action<StoreOptions>? configureOptions = null)
         {
             var options = new StoreOptions();
 
@@ -58,6 +61,8 @@
             options.Events.MetadataConfig.CausationIdEnabled = true;
             options.Events.MetadataConfig.CorrelationIdEnabled = true;
             options.Events.MetadataConfig.HeadersEnabled = true;
+
+            configureOptions?.Invoke(options);
 
             return options;
         }

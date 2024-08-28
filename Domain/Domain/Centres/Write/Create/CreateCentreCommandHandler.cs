@@ -1,10 +1,12 @@
-﻿namespace Domain.Centres.Create
+﻿namespace Domain.Centres.Write.Create
 {
     using Core.Aggregates;
     using Core.Commands;
     using Microsoft.Extensions.Logging;
 
-    public class CreateCentreCommandHandler(IAggregateRepository<CentreAggregate> repository, ILogger<CreateCentreCommandHandler> logger)
+    public class CreateCentreCommandHandler(
+        IAggregateRepository<CentreAggregate> repository,
+        ILogger<CreateCentreCommandHandler> logger)
         : ICommandHandler<CreateCentre>
     {
         public async Task Handle(CreateCentre command, CancellationToken cancellationToken)

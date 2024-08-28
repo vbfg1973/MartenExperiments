@@ -1,4 +1,6 @@
 ﻿namespace Core.Commands
 {
-    public abstract class DomainCommandBase { }
+    public abstract class DomainCommandBase
+    {
+    }
 }

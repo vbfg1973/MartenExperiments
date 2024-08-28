@@ -1,14 +1,21 @@
 ﻿namespace Domain
 {
     using Centres;
+    using Core.Marten;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class Config
     {
-        public static IServiceCollection AddDomainServices(this IServiceCollection services)
+        public static IServiceCollection AddDomainServices(this IServiceCollection services,
+            IConfiguration configuration)
         {
             services
-                .AddCentresModule()
+                .ConfigureMartenServices(configuration, options =>
+                {
+                    options.ConfigureCentresModule();
+                }).Services
+                .AddCentresModule(configuration)
                 ;
 
             return services;
