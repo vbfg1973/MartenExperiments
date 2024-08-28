@@ -8,7 +8,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
-    public class EventSubscriber(IServiceProvider serviceProvider, ILogger<EventSubscriber> logger) : SubscriptionBase
+    public class EventSubscriber(IServiceProvider serviceProvider, ILogger<EventSubscriber> logger): SubscriptionBase
     {
         public override async Task<IChangeListener> ProcessEventsAsync(
             EventRange eventRange,
@@ -43,7 +43,8 @@
 
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while processing Marten subscription: {ExceptionMessage}", ex.Message);
+                logger.LogError(ex, "An error occurred while processing Marten subscription: {ExceptionMessage}",
+                    ex.Message);
                 await subscriptionController.ReportCriticalFailureAsync(ex, lastProcessed).ConfigureAwait(false);
 
                 throw;

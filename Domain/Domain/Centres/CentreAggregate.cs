@@ -8,7 +8,6 @@
     {
         public CentreAggregate()
         {
-
         }
 
         public CentreAggregate(CreateCentre command)

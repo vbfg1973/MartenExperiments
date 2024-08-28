@@ -62,8 +62,6 @@
             options.Events.MetadataConfig.CorrelationIdEnabled = true;
             options.Events.MetadataConfig.HeadersEnabled = true;
 
-            Console.WriteLine($"Configure Options Status: {configureOptions != null}");
-
             configureOptions?.Invoke(options);
 
             return options;

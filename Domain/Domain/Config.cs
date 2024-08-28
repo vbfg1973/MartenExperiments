@@ -7,7 +7,8 @@
 
     public static class Config
     {
-        public static IServiceCollection AddDomainServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDomainServices(this IServiceCollection services,
+            IConfiguration configuration)
         {
             services
                 .ConfigureMartenServices(configuration, options =>

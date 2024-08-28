@@ -2,7 +2,6 @@
 {
     using CommandLine;
     using Core;
-    using Core.Marten;
     using Domain;
     using Features;
     using Features.Test;

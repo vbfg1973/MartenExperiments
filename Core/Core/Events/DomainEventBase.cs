@@ -1,4 +1,6 @@
 ﻿namespace Core.Events
 {
-    public abstract class DomainEventBase { }
+    public abstract class DomainEventBase
+    {
+    }
 }

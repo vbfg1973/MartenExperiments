@@ -1,6 +1,5 @@
 ﻿namespace Core
 {
-    using Aggregates;
     using Commands;
     using Microsoft.Extensions.DependencyInjection;
 
