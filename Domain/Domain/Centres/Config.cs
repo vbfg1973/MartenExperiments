@@ -2,6 +2,7 @@
 {
     using Core.Aggregates;
     using Core.Commands;
+    using Core.Queries;
     using Marten;
     using Marten.Events.Projections;
     using Microsoft.Extensions.Configuration;
@@ -17,8 +18,27 @@
         {
             services
                 .AddScoped<IAggregateRepository<CentreAggregate>, AggregateRepository<CentreAggregate>>()
+                .AddCommandHandlers()
+                .AddQueryHandlers()
+                ;
+
+            return services;
+        }
+
+        private static IServiceCollection AddCommandHandlers(this IServiceCollection services)
+        {
+            services
                 .AddCommandHandler<CreateCentre, CreateCentreCommandHandler>()
                 .AddCommandHandler<UpdateCentre, UpdateCentreCommandHandler>()
+                ;
+
+            return services;
+        }
+
+        private static IServiceCollection AddQueryHandlers(this IServiceCollection services)
+        {
+            services
+                .AddQueryHandler<GetCentreSummaryById, CentreSummaryReadModel, GetCentreSummaryByIdQueryHandler>()
                 ;
 
             return services;

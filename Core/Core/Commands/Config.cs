@@ -20,5 +20,14 @@
             return services.AddCommandHandler<TCommand, TCommandHandler>(sp =>
                 sp.GetRequiredService<TCommandHandler>());
         }
+
+        public static IServiceCollection AddCommandBus(this IServiceCollection services)
+        {
+            services
+                .AddScoped<ICommandBus, InMemoryCommandBus>()
+                ;
+
+            return services;
+        }
     }
 }
