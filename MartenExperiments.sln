@@ -1,22 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain\Domain.csproj", "{7C0B7EBA-F534-4AF4-8ADF-F0CD17DE6696}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain\Domain.csproj", "{7C0B7EBA-F534-4AF4-8ADF-F0CD17DE6696}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core\Core.csproj", "{63262792-812A-4D4B-82FC-9FF81D85FFBB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Core\Core\Core.csproj", "{63262792-812A-4D4B-82FC-9FF81D85FFBB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{518E3E52-35FC-4D3C-BDE8-9E95F37A4F8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "Domain\Domain.Tests\Domain.Tests.csproj", "{3B6B62BA-3C36-4AFB-AA91-1A7C52F80829}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Tests", "src\Domain\Domain.Tests\Domain.Tests.csproj", "{3B6B62BA-3C36-4AFB-AA91-1A7C52F80829}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{AA38D70E-1BF2-4302-95CA-7B355DEE3C12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Domain\Api\Api.csproj", "{7C1B687A-E0E4-4EFC-AF2F-1F5685861580}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\Domain\Api\Api.csproj", "{7C1B687A-E0E4-4EFC-AF2F-1F5685861580}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cli", "Cli", "{DB2D411E-98AB-448A-A2FE-3313346C039E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "Cli\Cli\Cli.csproj", "{675C691F-40D2-4081-AC51-BF3AB03DE24F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "src\Cli\Cli\Cli.csproj", "{675C691F-40D2-4081-AC51-BF3AB03DE24F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.WebApi", "Core\Core.WebApi\Core.WebApi.csproj", "{0051C5C3-A8B3-4C61-9061-1CB18BA562F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.WebApi", "src\Core\Core.WebApi\Core.WebApi.csproj", "{0051C5C3-A8B3-4C61-9061-1CB18BA562F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{7F828648-128C-4A21-80DB-94BD7EE02DD8}"
 	ProjectSection(SolutionItems) = preProject
