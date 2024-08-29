@@ -5,14 +5,26 @@ using Core.WebApi.Middlewares.ExceptionHandling;
 using Domain;
 using Marten.Exceptions;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.json", true, true)
+    // .AddJsonFile($"appsettings.{environmentName}.json", true, true)
+    .AddEnvironmentVariables()
+    .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .WriteTo.Console()
+    .CreateLogger();
 
 builder.Services
     .AddSwaggerGen(c =>
     {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
     })
+    .AddLogging(configure => configure.AddSerilog())
     .AddCoreServices()
     .AddDefaultExceptionHandler(
         (exception, _) => exception switch
@@ -54,3 +66,5 @@ app
     ;
 
 app.Run();
+
+Log.CloseAndFlush();
