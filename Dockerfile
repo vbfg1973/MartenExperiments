@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /sln
 
 # Copy the full dir structure from this level into the image
-# Would normally be more selective than this, copying in solution, 
+# Would normally be more selective than this, copying in solution,
 # src tree and any custom NuGet.config for local package repos
 COPY . .
 

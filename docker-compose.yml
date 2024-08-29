@@ -52,11 +52,11 @@ services:
     networks:
       - MARTENEXPERIMENTS_NETWORK
     ports:
-     - "51770:51770"
+     - "51771:51771"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       EventStore__ConnectionString: "PORT = 5432; HOST = db; TIMEOUT = 15; POOLING = True; MINPOOLSIZE = 1; MAXPOOLSIZE = 100; COMMANDTIMEOUT = 20; DATABASE = 'postgres'; PASSWORD = 'Password12!'; USER ID = 'postgres'"
-      Serilog__WriteTo[0]__Args__serverUrl: "http://seq:5341"
+      Serilog__WriteTo__0__Args__serverUrl: "http://seq:5341"
     depends_on:
       - db
       - seq

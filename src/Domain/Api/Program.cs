@@ -9,7 +9,8 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("appsettings.json", true, true)
+builder.Configuration
+    .AddJsonFile("appsettings.json", true, true)
     // .AddJsonFile($"appsettings.{environmentName}.json", true, true)
     .AddEnvironmentVariables()
     .Build();
@@ -22,7 +23,7 @@ Log.Logger = new LoggerConfiguration()
 builder.Services
     .AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "Marten Experiments API", Version = "v1" });
     })
     .AddLogging(configure => configure.AddSerilog())
     .AddCoreServices()
@@ -60,7 +61,7 @@ app
     .UseSwagger()
     .UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Shopping Carts V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Marten Experiments V1");
         c.RoutePrefix = string.Empty;
     })
     ;
