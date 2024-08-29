@@ -21,6 +21,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{7F828648-128C-4A21-80DB-94BD7EE02DD8}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
+		docs\ImplementationPhilosophy.md = docs\ImplementationPhilosophy.md
+		docs\ProjectStructure.md = docs\ProjectStructure.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{272D7AAF-57D0-40C1-B122-A6A6159EC343}"
