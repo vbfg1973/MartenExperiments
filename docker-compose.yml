@@ -1,0 +1,69 @@
+version: '3'
+
+networks:
+  MARTENEXPERIMENTS_NETWORK:
+    driver: bridge
+
+services:
+  seq:
+    image: "datalust/seq:latest"
+    restart: unless-stopped
+    networks:
+      - MARTENEXPERIMENTS_NETWORK
+    ports:
+     - "5341:5341"
+     - "80:80"
+    environment:
+     - ACCEPT_EULA=Y
+    volumes:
+      - MARTENEXPERIMENTS_SEQ_VOL:/data
+
+  db:
+    image: clkao/postgres-plv8
+    container_name: martenexperiments_postgres
+    restart: unless-stopped
+    environment:
+        POSTGRES_PASSWORD: Password12!
+    ports:
+        - "5432:5432"
+    networks:
+        - MARTENEXPERIMENTS_NETWORK
+    volumes:
+        - MARTENEXPERIMENTS_DB_VOL:/var/lib/postgressql/data
+
+  pgadmin:
+      image: dpage/pgadmin4
+      container_name: martenexperiments_pgadmin_container
+      restart: unless-stopped
+      environment:
+          PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+          PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+          PGADMIN_CONFIG_SERVER_MODE: 'False'
+      volumes:
+          - MARTENEXPERIMENTS_PGADMIN_VOL:/var/lib/pgadmin
+      ports:
+          - "${PGADMIN_PORT:-5050}:80"
+      networks:
+          - MARTENEXPERIMENTS_NETWORK
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    networks:
+        - MARTENEXPERIMENTS_NETWORK
+    ports:
+     - "51770:51770"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      EventStore__ConnectionString: "PORT = 5432; HOST = db; TIMEOUT = 15; POOLING = True; MINPOOLSIZE = 1; MAXPOOLSIZE = 100; COMMANDTIMEOUT = 20; DATABASE = 'postgres'; PASSWORD = 'Password12!'; USER ID = 'postgres'"
+      Serilog__WriteTo__0__Args__serverUrl: "http://seq:5341"
+    depends_on:
+      - db
+      - seq
+
+volumes:
+  MARTENEXPERIMENTS_DB_VOL:
+  MARTENEXPERIMENTS_PGADMIN_VOL:
+  MARTENEXPERIMENTS_SEQ_VOL:
