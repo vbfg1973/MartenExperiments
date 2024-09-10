@@ -4,6 +4,7 @@
     using Core.Marten;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Students;
 
     public static class Config
     {
@@ -15,8 +16,10 @@
                 {
                     // Projection configs go in here through static methods
                     options.ConfigureCentresModule();
+                    options.ConfigureStudentsModule();
                 }).Services
                 .AddCentresModule(configuration)
+                .AddStudentsModule(configuration)
                 ;
 
             return services;
