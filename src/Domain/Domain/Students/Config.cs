@@ -1,0 +1,53 @@
+﻿namespace Domain.Students
+{
+    using Core.Aggregates;
+    using Core.Commands;
+    using Core.Queries;
+    using Marten;
+    using Marten.Events.Projections;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Read.StudentSummary;
+    using Write.Create;
+    using Write.Update;
+
+    public static class Config
+    {
+        public static IServiceCollection AddStudentsModule(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            services
+                .AddScoped<IAggregateRepository<StudentAggregate>, AggregateRepository<StudentAggregate>>()
+                .AddCommandHandlers()
+                .AddQueryHandlers()
+                ;
+
+            return services;
+        }
+
+        private static IServiceCollection AddCommandHandlers(this IServiceCollection services)
+        {
+            services
+                .AddCommandHandler<CreateStudent, CreateStudentCommandHandler>()
+                .AddCommandHandler<UpdateStudent, UpdateStudentCommandHandler>()
+                ;
+
+            return services;
+        }
+
+        private static IServiceCollection AddQueryHandlers(this IServiceCollection services)
+        {
+            services
+                .AddQueryHandler<GetStudentSummaryById, StudentSummaryReadModel, GetStudentSummaryByIdQueryHandler>();
+            return services;
+        }
+
+        internal static void ConfigureStudentsModule(this StoreOptions options)
+        {
+            options.Events.AddEventType(typeof(StudentCreated));
+            options.Events.AddEventType(typeof(StudentUpdated));
+
+            options.Projections.Add<StudentSummaryProjection>(ProjectionLifecycle.Inline);
+        }
+    }
+}
