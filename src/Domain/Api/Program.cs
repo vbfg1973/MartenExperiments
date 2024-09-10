@@ -32,7 +32,7 @@ builder.Services
         {
             AggregateNotFoundException => exception.MapToProblemDetails(StatusCodes.Status404NotFound),
             ConcurrencyException => exception.MapToProblemDetails(StatusCodes.Status412PreconditionFailed),
-            InvalidOperationException => exception.MapToProblemDetails(StatusCodes.Status400BadRequest),
+            InvalidOperationException => exception.MapToProblemDetails(StatusCodes.Status500InternalServerError),
             _ => null
         })
     .AddDomainServices(builder.Configuration)

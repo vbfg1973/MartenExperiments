@@ -5,6 +5,7 @@
     using Core.Queries;
     using Marten;
     using Marten.Events.Projections;
+    using Marten.Pagination;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Read.StudentSummary;
@@ -38,7 +39,10 @@
         private static IServiceCollection AddQueryHandlers(this IServiceCollection services)
         {
             services
-                .AddQueryHandler<GetStudentSummaryById, StudentSummaryReadModel, GetStudentSummaryByIdQueryHandler>();
+                .AddQueryHandler<GetStudentSummaryByStudentReference, StudentSummaryReadModel, GetStudentSummaryByStudentReferenceQueryHandler>()
+                .AddQueryHandler<GetStudentSummaryById, StudentSummaryReadModel, GetStudentSummaryByIdQueryHandler>()
+                .AddQueryHandler<GetStudentSummaries, IPagedList<StudentSummaryReadModel>, GetStudentSummariesQueryHandler>()
+                ;
             return services;
         }
 

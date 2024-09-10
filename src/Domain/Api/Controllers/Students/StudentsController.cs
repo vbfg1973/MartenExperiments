@@ -5,12 +5,23 @@
     using Domain.Students.Read.StudentSummary;
     using Domain.Students.Write.Create;
     using Domain.Students.Write.Update;
+    using Marten.Pagination;
     using Microsoft.AspNetCore.Mvc;
 
     [Route("api/[controller]")]
     public class StudentsController(ICommandBus commandBus, IQueryBus queryBus, ILogger<StudentsController> logger)
         : Controller
     {
+        [HttpGet]
+        public async Task<IActionResult> GetCentreSummary([FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 100)
+        {
+            var query = GetStudentSummaries.Create(pageNumber, pageSize);
+            var result = await queryBus.Query<GetStudentSummaries, IPagedList<StudentSummaryReadModel>>(query);
+
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStudentSummary(Guid id)
         {
@@ -25,7 +36,22 @@
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            var command = new CreateStudent(request.StudentReference, request.FamilyReference, request.FirstName, request.LastName);
+            var result =
+                await queryBus.Query<GetStudentSummaryByStudentReference, StudentSummaryReadModel?>(
+                    new GetStudentSummaryByStudentReference(request.StudentReference));
+
+            if (result != null)
+            {
+                return Conflict(new
+                {
+                    Location = $"api/Students/{result.Id}",
+                    Message =
+                        $"An existing record with the id '{result.Id}' was already found with student reference '{result.StudentReference}'."
+                });
+            }
+
+            var command = new CreateStudent(request.StudentReference, request.FamilyReference, request.FirstName,
+                request.LastName);
 
             await commandBus.Send(command);
 
@@ -46,6 +72,11 @@
         }
     }
 
-    public record CreateStudentRequest(string FirstName, string LastName, string StudentReference, string FamilyReference);
+    public record CreateStudentRequest(
+        string FirstName,
+        string LastName,
+        string StudentReference,
+        string FamilyReference);
+
     public record UpdateStudentRequest(string FirstName, string LastName);
 }
