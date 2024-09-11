@@ -1,6 +1,5 @@
-﻿namespace Domain.Centres.Read.CentreSummary
+namespace Domain.Centres.Read.CentreSummary.Queries
 {
-    public record GetCentreSummaryById(Guid CentreId);
     public record GetCentreSummaries(int PageNumber, int PageSize)
     {
         public static GetCentreSummaries Create(int pageNumber = 1, int pageSize = 20)

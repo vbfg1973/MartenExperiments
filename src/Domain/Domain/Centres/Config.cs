@@ -9,6 +9,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Read.CentreSummary;
+    using Read.CentreSummary.Queries;
+    using Read.CentreSummary.QueryHandlers;
     using Write.Create;
     using Write.Update;
 
