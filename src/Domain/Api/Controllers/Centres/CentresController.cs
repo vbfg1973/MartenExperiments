@@ -11,10 +11,12 @@
     using Requests;
 
     [Route("api/[controller]")]
-    public class CentresController(ICommandBus commandBus, IQueryBus queryBus, ILogger<CentresController> logger): Controller
+    public class CentresController(ICommandBus commandBus, IQueryBus queryBus, ILogger<CentresController> logger)
+        : Controller
     {
         [HttpGet]
-        public async Task<IActionResult> GetCentreSummary([FromQuery] int pageNumber = 1,  [FromQuery] int pageSize = 100)
+        public async Task<IActionResult> GetCentreSummary([FromQuery] int pageNumber = 1,
+            [FromQuery] int pageSize = 100)
         {
             var query = GetCentreSummaries.Create(pageNumber, pageSize);
             var result = await queryBus.Query<GetCentreSummaries, IPagedList<CentreSummaryReadModel>>(query);

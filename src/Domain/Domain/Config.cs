@@ -2,6 +2,7 @@
 {
     using Centres;
     using Core.Marten;
+    using Curriculum;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Students;
@@ -17,9 +18,12 @@
                     // Projection configs go in here through static methods
                     options.ConfigureCentresModule();
                     options.ConfigureStudentsModule();
-                }).Services
+                    options.ConfigureCurriculumModule();
+                })
+                .Services
                 .AddCentresModule(configuration)
                 .AddStudentsModule(configuration)
+                .AddCurriculumModule(configuration)
                 ;
 
             return services;

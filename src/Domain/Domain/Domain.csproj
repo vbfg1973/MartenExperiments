@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <Folder Include="Centres\Write\"/>
+        <Folder Include="Curriculum\Read\" />
     </ItemGroup>
 
 </Project>

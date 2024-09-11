@@ -8,6 +8,7 @@
     using Domain.Students.Write.Update;
     using Marten.Pagination;
     using Microsoft.AspNetCore.Mvc;
+    using Requests;
 
     [Route("api/[controller]")]
     public class StudentsController(ICommandBus commandBus, IQueryBus queryBus, ILogger<StudentsController> logger)
@@ -72,12 +73,4 @@
             return NoContent();
         }
     }
-
-    public record CreateStudentRequest(
-        string FirstName,
-        string LastName,
-        string StudentReference,
-        string FamilyReference);
-
-    public record UpdateStudentRequest(string FirstName, string LastName);
 }
