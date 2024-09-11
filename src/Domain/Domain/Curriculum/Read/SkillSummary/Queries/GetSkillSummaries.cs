@@ -1,4 +1,4 @@
-namespace Domain.Curriculum.SkillSummary.Queries
+namespace Domain.Curriculum.Read.SkillSummary.Queries
 {
     public record GetSkillSummaries(int PageNumber, int PageSize)
     {

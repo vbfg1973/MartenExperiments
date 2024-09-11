@@ -1,4 +1,4 @@
-﻿namespace Domain.Curriculum.SkillSummary
+﻿namespace Domain.Curriculum.Read.SkillSummary
 {
     using Domain.Curriculum.Write.Create;
     using Marten.Events.Aggregation;

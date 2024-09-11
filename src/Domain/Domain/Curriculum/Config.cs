@@ -8,10 +8,10 @@
     using Marten.Pagination;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using SkillSummary;
-    using SkillSummary.Queries;
-    using SkillSummary.QueryHandlers;
-    using SkillSummary.QueryHandlers.Domain.Skills.Read.SkillSummary.QueryHandlers;
+    using Read.SkillSummary;
+    using Read.SkillSummary.Queries;
+    using Read.SkillSummary.QueryHandlers;
+    using Read.SkillSummary.QueryHandlers.Domain.Skills.Read.SkillSummary.QueryHandlers;
     using Write.Create;
 
     public static class Config
@@ -41,6 +41,7 @@
         {
             services
                 .AddQueryHandler<GetSkillSummaryById, SkillSummaryReadModel, GetSkillSummaryByIdQueryHandler>()
+                .AddQueryHandler<GetSkillSummaryBySkillReference, SkillSummaryReadModel, GetSkillSummaryBySkillReferenceQueryHandler>()
                 .AddQueryHandler<GetSkillSummaries, IPagedList<SkillSummaryReadModel>, GetSkillSummariesQueryHandler>()
                 ;
 

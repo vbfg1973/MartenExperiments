@@ -1,13 +1,16 @@
 ﻿namespace Cli
 {
+    using System.Net;
     using CommandLine;
     using Core;
     using Domain;
     using Features;
+    using Features.LoadSkills;
     using Features.Test;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Serilog;
+    using Services;
 
     public static class Program
     {
@@ -40,15 +43,24 @@
         {
             Parser.Default
                 .ParseArguments<
+                    LoadSkillsOptions,
                     TestOptions
                 >(args)
-                .WithParsed(options =>
+                .WithParsed<TestOptions>(options =>
                 {
                     var verb = s_serviceProvider.GetService<TestVerb>();
 
                     verb?.Run(options)
                         .Wait();
-                });
+                })
+                .WithParsed<LoadSkillsOptions>(options =>
+                {
+                    var verb = s_serviceProvider.GetService<LoadSkillsVerb>();
+
+                    verb?.Run(options)
+                        .Wait();
+                })
+                ;
         }
 
         private static void ConfigureServices()
@@ -61,6 +73,7 @@
                 .AddCoreServices()
                 .AddDomainServices(s_configuration)
                 .AddVerbs()
+                .AddHttpClient<ApiClient>(client => client.BaseAddress = new Uri("http://localhost:51770/"))
                 ;
 
             s_serviceProvider = s_serviceCollection.BuildServiceProvider();

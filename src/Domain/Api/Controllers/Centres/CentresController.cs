@@ -15,10 +15,10 @@
         : Controller
     {
         [HttpGet]
-        public async Task<IActionResult> GetCentreSummary([FromQuery] int pageNumber = 1,
+        public async Task<IActionResult> GetCentreSummaries([FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 100)
         {
-            var query = GetCentreSummaries.Create(pageNumber, pageSize);
+            var query = Domain.Centres.Read.CentreSummary.Queries.GetCentreSummaries.Create(pageNumber, pageSize);
             var result = await queryBus.Query<GetCentreSummaries, IPagedList<CentreSummaryReadModel>>(query);
 
             return Ok(result);

@@ -1,4 +1,4 @@
-﻿namespace Domain.Curriculum.SkillSummary.QueryHandlers
+﻿namespace Domain.Curriculum.Read.SkillSummary.QueryHandlers
 {
     using Core.Queries;
     using Marten;

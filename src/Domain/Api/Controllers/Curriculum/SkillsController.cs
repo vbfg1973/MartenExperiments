@@ -2,8 +2,8 @@
 {
     using Core.Commands;
     using Core.Queries;
-    using Domain.Curriculum.SkillSummary;
-    using Domain.Curriculum.SkillSummary.Queries;
+    using Domain.Curriculum.Read.SkillSummary;
+    using Domain.Curriculum.Read.SkillSummary.Queries;
     using Domain.Curriculum.Write.Create;
     using Marten.Pagination;
     using Microsoft.AspNetCore.Mvc;
@@ -14,10 +14,10 @@
         : Controller
     {
         [HttpGet]
-        public async Task<IActionResult> GetCentreSummary([FromQuery] int pageNumber = 1,
+        public async Task<IActionResult> GetSkillSummaries([FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 100)
         {
-            var query = GetSkillSummaries.Create(pageNumber, pageSize);
+            var query = Domain.Curriculum.Read.SkillSummary.Queries.GetSkillSummaries.Create(pageNumber, pageSize);
             var result = await queryBus.Query<GetSkillSummaries, IPagedList<SkillSummaryReadModel>>(query);
 
             return Ok(result);
