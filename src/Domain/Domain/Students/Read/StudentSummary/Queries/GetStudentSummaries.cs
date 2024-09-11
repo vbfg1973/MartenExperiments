@@ -1,4 +1,4 @@
-namespace Domain.Students.Read.StudentSummary
+namespace Domain.Students.Read.StudentSummary.Queries
 {
     public record GetStudentSummaries(int PageNumber, int PageSize)
     {

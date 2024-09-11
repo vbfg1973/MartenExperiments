@@ -1,8 +1,9 @@
-﻿namespace Domain.Centres.Read.CentreSummary
+﻿namespace Domain.Centres.Read.CentreSummary.QueryHandlers
 {
     using Core.Exceptions;
     using Core.Queries;
     using Marten;
+    using Queries;
 
     internal class GetCentreSummaryByIdQueryHandler(IDocumentSession querySession)
         : IQueryHandler<GetCentreSummaryById, CentreSummaryReadModel>

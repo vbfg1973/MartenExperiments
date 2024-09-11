@@ -3,6 +3,7 @@
     using Core.Commands;
     using Core.Queries;
     using Domain.Students.Read.StudentSummary;
+    using Domain.Students.Read.StudentSummary.Queries;
     using Domain.Students.Write.Create;
     using Domain.Students.Write.Update;
     using Marten.Pagination;

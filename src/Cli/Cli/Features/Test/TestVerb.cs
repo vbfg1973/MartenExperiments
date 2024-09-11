@@ -5,6 +5,7 @@
     using Core.Commands;
     using Core.Queries;
     using Domain.Centres.Read.CentreSummary;
+    using Domain.Centres.Read.CentreSummary.Queries;
     using Domain.Centres.Write.Create;
     using Domain.Centres.Write.Update;
     using Microsoft.Extensions.Logging;

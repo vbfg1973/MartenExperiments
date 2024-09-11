@@ -9,6 +9,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Read.StudentSummary;
+    using Read.StudentSummary.Queries;
+    using Read.StudentSummary.QueryHandlers;
     using Write.Create;
     using Write.Update;
 
